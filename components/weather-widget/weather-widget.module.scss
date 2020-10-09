@@ -1,0 +1,36 @@
+.weather-widget {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.weather-widget-locality {
+  font-size: 3rem;
+}
+
+.weather-widget-description {
+  color: slategray;
+}
+
+.weather-widget-temp {
+  font-size: 6rem;
+  &::after {
+    content: '\B0';
+  }
+}
+
+.weather-widget-unit-picker {
+  color: slategray;
+  & button {
+    background-color: transparent;
+    border: none;
+    color: slategray;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
