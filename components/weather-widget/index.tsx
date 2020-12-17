@@ -1,11 +1,14 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useGeolocation } from '../../hooks';
 import { fetchWeather } from '../../store/actions';
-import { WeatherStatus } from '../../store/data-mapper';
+import { WeatherStatus } from '../../types';
+import { lessThan } from '../../utils';
 
 import css from './weather-widget.module.scss';
 
 interface WeatherWidgetProps {
+  weather: WeatherStatus;
   slideId: number;
 }
 
@@ -15,26 +18,17 @@ function convertTemp(temp: number, unit: 'c' | 'f' = 'c'): number {
   return temp;
 }
 
-const WeatherWidget: FunctionComponent<WeatherWidgetProps> = ({ slideId }) => {
-  const weather: WeatherStatus = useSelector((store) => store.current);
+const WeatherWidget: FunctionComponent<WeatherWidgetProps> = ({ slideId, weather }) => {
   const [unit, setUnit] = useState<'c' | 'f'>('c');
+  const [place, setPlace] = useState<string>(weather?.place);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!slideId) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        dispatch(fetchWeather({
-          slideId,
-          latitude,
-          longitude,
-          location: null,
-        }));
-      }, (err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      });
+    if (!place) {
+      useGeolocation().then((result) => setPlace(result));
+    } else if (!weather || !lessThan(weather?.timestamp)) {
+      dispatch(fetchWeather({ location: place, slideId }));
     }
-  }, []);
+  }, [place]);
   return (
     <div className={css['weather-widget']}>
       {
@@ -43,7 +37,7 @@ const WeatherWidget: FunctionComponent<WeatherWidgetProps> = ({ slideId }) => {
             <div className={css['weather-widget-icon']}>
               <img src={`http://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt={weather.description} />
             </div>
-            <div className={css['weather-widget-locality']}>{weather.locality}</div>
+            <div className={css['weather-widget-locality']}>{weather.place}</div>
             <div className={css['weather-widget-description']}>{weather.description}</div>
             <div className={css['weather-widget-temp']}>{Math.round(convertTemp(weather.temp, unit))}</div>
             <div className={css['weather-widget-unit-picker']}>

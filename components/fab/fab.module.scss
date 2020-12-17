@@ -1,0 +1,28 @@
+.fab {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  min-width: 48px;
+  height: 48px;
+  z-index: 10;
+  
+  & a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 12px;
+    color: slategray;
+    font-size: 32px;
+    text-decoration: none;
+    border: 1px solid slategray;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
+
+    &:focus,
+    &:hover {
+      background-color: slategray;
+      color: white;
+    }
+  }
+}

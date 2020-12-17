@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import './swiper.scss';
+
 * {
   box-sizing: border-box;
 }
@@ -11,17 +14,10 @@ body,
 body {
   margin: 0;
   padding: 3vw 0;
-  font-family: -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Oxygen-Sans,
-    Ubuntu,
-    Cantarell,
-    "Helvetica Neue",
-    sans-serif;
+  font-family: Roboto, sans-serif;
   
-  background-color: hsl(209 65% 80%);
+  color: hsl(209 60% 18%);
+  background-color: hsl(209 60% 65%);
 }
 
 .shell {
@@ -34,6 +30,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 0 128px hsl(209 60% 40%);
 }
 
 p,
@@ -46,30 +43,8 @@ h6 {
   margin-top: 0;
 }
 
-.swiper-container {
+main {
   position: relative;
+  width: 100%;
   height: 100%;
-}
-
-.swiper-pagination {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 2rem;
-  width: fit-content;
-  height: fit-content;
-  display: flex;
-  gap: 8px;
-
-  & .swiper-pagination-bullet {
-    display: block;
-    width: 12px;
-    height: 12px;
-    background-color: #70809051;
-    border-radius: 50%;
-  }
-
-  & .swiper-pagination-bullet-active {
-    background-color: #708090;
-  }
 }

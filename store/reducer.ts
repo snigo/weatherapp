@@ -1,15 +1,26 @@
 /* eslint-disable no-case-declarations */
-import { FETCH_WEATHER_REQUEST, FETCH_WEATHER_SUCCESS, FETCH_WEATHER_FAILURE } from './actions';
-import { WeatherStatus } from './data-mapper';
+import { cloneDeep } from 'lodash';
+import {
+  FETCH_WEATHER_REQUEST,
+  FETCH_WEATHER_SUCCESS,
+  FETCH_WEATHER_FAILURE,
+  LOAD_PERSISTENT_STORE,
+} from './actions';
+import { WeatherStatus } from '../types';
 
 interface WeatherState {
-  current: WeatherStatus;
-  locations: WeatherStatus[];
+  places: WeatherStatus[];
 }
 
 const initialState: WeatherState = {
-  current: null,
-  locations: [],
+  places: [null],
+};
+
+const persistStore = (state) => {
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('store', JSON.stringify(state));
+  }
+  return state;
 };
 
 const weatherReducer = (state = initialState, action) => {
@@ -18,13 +29,11 @@ const weatherReducer = (state = initialState, action) => {
       return state;
     case FETCH_WEATHER_SUCCESS:
       const { slideId, data } = action.payload;
-      const newState = { ...state };
-      if (slideId) {
-        newState.locations[slideId] = data;
-      } else {
-        newState.current = data;
-      }
-      return newState;
+      const newState: WeatherState = cloneDeep(state);
+      newState.places[slideId] = data;
+      return persistStore(newState);
+    case LOAD_PERSISTENT_STORE:
+      return action.payload;
     case FETCH_WEATHER_FAILURE:
     default:
       return state;

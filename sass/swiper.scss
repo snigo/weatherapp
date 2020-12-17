@@ -1,0 +1,28 @@
+.swiper-wrapper,
+.swiper-slide,
+.swiper-container {
+  height: 100%;
+}
+
+.swiper-pagination {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 2rem;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  gap: 8px;
+
+  & .swiper-pagination-bullet {
+    display: block;
+    width: 12px;
+    height: 12px;
+    background-color: #70809051;
+    border-radius: 50%;
+  }
+
+  & .swiper-pagination-bullet-active {
+    background-color: #708090;
+  }
+}
