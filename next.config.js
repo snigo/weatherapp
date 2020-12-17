@@ -50,7 +50,7 @@ const nextConfig = {
         },
       },
       {
-        urlPattern: /^https?:/,
+        urlPattern: /^http:localhost:3000\/api/,
         handler: 'NetworkFirst',
         options: {
           cacheName: 'api-cache',
